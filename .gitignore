@@ -1,0 +1,31 @@
+# Python cache
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+
+# Virtual environment
+env/
+venv/
+realestate_env/
+*.env
+
+# Jupyter Notebook checkpoints
+.ipynb_checkpoints/
+
+# OS system files
+.DS_Store
+Thumbs.db
+
+# Large files (do NOT upload models accidentally)
+*.zip
+*.tar
+*.gz
+*.db
+
+# Logs
+logs/
+*.log
+
+# ML experiment metadata (optional)
+mlruns/
