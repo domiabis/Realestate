@@ -3,32 +3,35 @@ import pandas as pd
 import pickle
 import numpy as np
 
-# =========================
-# Load Models
-# =========================
-@st.cache_resource
-def load_models():
-    reg_model = pickle.load(open("app/models/regression_model.pkl", "rb"))
-    cls_model = pickle.load(open("app/models/classification_model.pkl", "rb"))
-    return reg_model, cls_model
-
-reg_model, cls_model = load_models()
-
-# =========================
-# Streamlit App UI
-# =========================
+# ======================================
+# MUST BE FIRST STREAMLIT COMMAND
+# ======================================
 st.set_page_config(
     page_title="Real Estate Investment Advisor",
     page_icon="🏠",
     layout="wide"
 )
 
+# ======================================
+# Load Models (AFTER page_config)
+# ======================================
+@st.cache_resource
+def load_models():
+    reg_model = pickle.load(open("C:/Realestate/app/models/regression_model.pkl", "rb"))
+    cls_model = pickle.load(open("C:/Realestate/app/models/classification_model.pkl", "rb"))
+    return reg_model, cls_model
+
+reg_model, cls_model = load_models()
+
+# ======================================
+# Streamlit App UI
+# ======================================
 st.title("🏠 Real Estate Investment Advisor")
 st.write("Provide property details below to get predictions and recommendations.")
 
-# =========================
+# ======================================
 # Input Form
-# =========================
+# ======================================
 with st.form("input_form"):
     st.subheader("📌 Property Details")
 
@@ -59,14 +62,15 @@ with st.form("input_form"):
         ])
         Property_Type = st.selectbox("Property Type", ["Apartment", "Villa", "Independent House"])
         Facing = st.selectbox("Facing", ["North", "South", "East", "West"])
+
     submitted = st.form_submit_button("Predict")
 
-# =========================
+# ======================================
 # Prediction Logic
-# =========================
+# ======================================
 if submitted:
 
-    # Build input dataframe EXACTLY matching training features
+    # Exact matching input for model
     input_df = pd.DataFrame([{
         "BHK": BHK,
         "Size_in_SqFt": Size,
@@ -89,9 +93,7 @@ if submitted:
     invest_pred = cls_model.predict(input_df)[0]
     invest_prob = cls_model.predict_proba(input_df)[0][1] * 100
 
-    # =========================
-    # Output Display
-    # =========================
+    # Output
     st.success(f"💰 **Estimated Price After 5 Years:** ₹{predicted_price:.2f} Lakhs")
 
     if invest_pred == 1:
@@ -103,5 +105,4 @@ if submitted:
         st.markdown(
             f"<h3 style='color:red;'>❌ Not Recommended (Confidence: {invest_prob:.2f}%)</h3>",
             unsafe_allow_html=True
-
         )
