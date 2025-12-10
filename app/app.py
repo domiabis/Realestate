@@ -17,8 +17,8 @@ st.set_page_config(
 # ======================================
 @st.cache_resource
 def load_models():
-    reg_model = pickle.load(open("C:/Realestate/app/models/regression_model.pkl", "rb"))
-    cls_model = pickle.load(open("C:/Realestate/app/models/classification_model.pkl", "rb"))
+    reg_model = pickle.load(open("app/models/regression_model.pkl", "rb"))
+    cls_model = pickle.load(open("app/models/classification_model.pkl", "rb"))
     return reg_model, cls_model
 
 reg_model, cls_model = load_models()
@@ -106,3 +106,4 @@ if submitted:
             f"<h3 style='color:red;'>❌ Not Recommended (Confidence: {invest_prob:.2f}%)</h3>",
             unsafe_allow_html=True
         )
+
